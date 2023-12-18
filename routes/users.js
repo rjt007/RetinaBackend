@@ -6,13 +6,15 @@ const bcrypt = require('bcrypt');
 //Register
 router.post('/register', async(req, res)=>{
     try{
-        const {email, password} = req.body;
-        if(!email || !password){
+        const {name, email, age, password} = req.body;
+        if(!email || !password || !name || !age){
             return res.status(400).json({message: 'Error! All fields are required!'});
         }
         const hashedPassword = await bcrypt.hash(password,10);
         const user = new User({
+            name:name,
             email:email,
+            age:age,
             password:hashedPassword
         });
         await user.save();
